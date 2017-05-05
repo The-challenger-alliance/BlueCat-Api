@@ -1,4 +1,6 @@
-﻿using System.Web.Http;
+﻿using FluentValidation.Attributes;
+using FluentValidation.Mvc;
+using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
 
@@ -10,10 +12,13 @@ namespace BlueCat.Api
     {
         protected void Application_Start()
         {
+
             AreaRegistration.RegisterAllAreas();
-            WebApiConfig.Register(GlobalConfiguration.Configuration);
+            //WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            GlobalConfiguration.Configure(WebApiConfig.Register);
         }
+
     }
 }
