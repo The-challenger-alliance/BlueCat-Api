@@ -9,20 +9,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueCat.Contract", "BlueCat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueCat.Jwt", "BlueCat.Jwt\BlueCat.Jwt.csproj", "{EA86AF02-EA72-46A0-BF31-CC79211FAB98}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dll", "dll", "{16ACE040-7B2E-4485-95D9-C25E09C2F707}"
-	ProjectSection(SolutionItems) = preProject
-		C:\Program Files (x86)\Microsoft ASP.NET\ASP.NET MVC 4\Assemblies\System.Net.Http.dll = C:\Program Files (x86)\Microsoft ASP.NET\ASP.NET MVC 4\Assemblies\System.Net.Http.dll
-		C:\Program Files (x86)\Microsoft ASP.NET\ASP.NET MVC 4\Assemblies\System.Net.Http.Formatting.dll = C:\Program Files (x86)\Microsoft ASP.NET\ASP.NET MVC 4\Assemblies\System.Net.Http.Formatting.dll
-		C:\Program Files (x86)\Microsoft ASP.NET\ASP.NET MVC 4\Assemblies\System.Net.Http.WebRequest.dll = C:\Program Files (x86)\Microsoft ASP.NET\ASP.NET MVC 4\Assemblies\System.Net.Http.WebRequest.dll
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueCat.Api.Internal", "BlueCat.Api.Internal\BlueCat.Api.Internal.csproj", "{B82BF1DC-992B-41E6-BE65-9C9A27D03F18}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueCat.Api.UnitOfWork", "BlueCat.Api.Entity\BlueCat.Api.UnitOfWork.csproj", "{7A6124DC-8812-464A-989C-A0DA9C8BA587}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueCat.Api.UnitOfWork", "BlueCat.Api.UnitOfWork\BlueCat.Api.UnitOfWork.csproj", "{7A6124DC-8812-464A-989C-A0DA9C8BA587}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueCat.Api.Repository.Interface", "BlueCat.Api.Interface\BlueCat.Api.Repository.Interface.csproj", "{95B95A3B-E1C8-477B-BDED-A1544F1BADAB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueCat.Api.Repository.Interface", "BlueCat.Api.Repository.Interface\BlueCat.Api.Repository.Interface.csproj", "{95B95A3B-E1C8-477B-BDED-A1544F1BADAB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueCat.Api.Common", "BlueCat.Api.Common\BlueCat.Api.Common.csproj", "{D27585E5-ED11-46ED-9770-D44819825056}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueCat.Api.Service.Interface", "BlueCat.Api.Service.Interface\BlueCat.Api.Service.Interface.csproj", "{7543FFF2-4FF0-469E-A9FC-D434E63B95D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueCat.Api.Service.Impl", "BlueCat.Api.Service.Impl\BlueCat.Api.Service.Impl.csproj", "{FAD29391-5A5E-4479-9CE2-77AF1C66D68C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueCat.Api.Repository.Impl", "BlueCat.Api.Repository.Impl\BlueCat.Api.Repository.Impl.csproj", "{F8008E1D-E865-4AC6-A661-2455473C3E7C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueCat.Validation", "BlueCat.Validation\BlueCat.Validation.csproj", "{F1AD5641-C1E0-400D-9F7E-9302CDDA57D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,6 +59,22 @@ Global
 		{D27585E5-ED11-46ED-9770-D44819825056}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D27585E5-ED11-46ED-9770-D44819825056}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D27585E5-ED11-46ED-9770-D44819825056}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7543FFF2-4FF0-469E-A9FC-D434E63B95D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7543FFF2-4FF0-469E-A9FC-D434E63B95D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7543FFF2-4FF0-469E-A9FC-D434E63B95D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7543FFF2-4FF0-469E-A9FC-D434E63B95D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAD29391-5A5E-4479-9CE2-77AF1C66D68C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAD29391-5A5E-4479-9CE2-77AF1C66D68C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAD29391-5A5E-4479-9CE2-77AF1C66D68C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAD29391-5A5E-4479-9CE2-77AF1C66D68C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8008E1D-E865-4AC6-A661-2455473C3E7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8008E1D-E865-4AC6-A661-2455473C3E7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8008E1D-E865-4AC6-A661-2455473C3E7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8008E1D-E865-4AC6-A661-2455473C3E7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1AD5641-C1E0-400D-9F7E-9302CDDA57D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1AD5641-C1E0-400D-9F7E-9302CDDA57D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1AD5641-C1E0-400D-9F7E-9302CDDA57D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1AD5641-C1E0-400D-9F7E-9302CDDA57D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
