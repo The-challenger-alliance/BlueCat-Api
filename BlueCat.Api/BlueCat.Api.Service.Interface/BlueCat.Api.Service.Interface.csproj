@@ -7,8 +7,8 @@
     <ProjectGuid>{7543FFF2-4FF0-469E-A9FC-D434E63B95D9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BlueCat.Api.IService</RootNamespace>
-    <AssemblyName>BlueCat.Api.IService</AssemblyName>
+    <RootNamespace>BlueCat.Api.Service.Interface</RootNamespace>
+    <AssemblyName>BlueCat.Api.Service.Interface</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
