@@ -1,5 +1,5 @@
-﻿
-using BlueCat.Api.Common;
+﻿using BlueCat.Api.Common;
+using BlueCat.Api.Service.Impl;
 using BlueCat.Api.Service.Interface;
 using BlueCat.Contract;
 using BlueCat.Jwt;
@@ -18,10 +18,12 @@ namespace BlueCat.Api.Controllers
 {
     public class ProductsController : ApiController
     {
-        [Import]
         public IProductService ProductService { get; set; }
 
-
+        public ProductsController(IProductService productService)
+        {
+            this.ProductService = productService;
+        }
 
         Product[] products = new Product[] 
         { 
@@ -32,9 +34,8 @@ namespace BlueCat.Api.Controllers
 
         [Route("v1/products/get")]
         [HttpGet]
-        public IEnumerable<Product>GetAllProducts()
+        public IEnumerable<Product> GetAllProducts()
         {
-
             return products;
         }
 
@@ -53,6 +54,14 @@ namespace BlueCat.Api.Controllers
                 });
                 return BadRequest(ModelState);
             }
+
+            CreateProductRequest request = new CreateProductRequest()
+            {
+                Id = product.Id,
+                Name = product.Name
+            };
+
+            CreateProductResponse response = ProductService.CreateProduct(request);
 
             return Ok(products);
         }

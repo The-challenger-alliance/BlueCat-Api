@@ -1,16 +1,11 @@
 ﻿using BlueCat.Api.UnitOfWork;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BlueCat.Api.ServiceImpl
+namespace BlueCat.Api.Service.Impl
 {
    public class UnitOfWorkService
     {
-        [Import]
+        //[Import]
         protected IUnitOfWork UnitOfWork { get; set; }
     }
 }

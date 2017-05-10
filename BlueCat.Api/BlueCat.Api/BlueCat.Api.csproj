@@ -39,6 +39,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.4.5.0\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.Mvc">
+      <HintPath>..\packages\Autofac.Mvc5.4.0.2\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.WebApi">
+      <HintPath>..\packages\Autofac.WebApi2.4.0.1\lib\net45\Autofac.Integration.WebApi.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="FluentValidation">
       <HintPath>..\packages\FluentValidation.5.1.0.0\lib\Net40\FluentValidation.dll</HintPath>
     </Reference>
@@ -115,6 +132,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\AutoFacConfig.cs" />
+    <Compile Include="DI\MefDependencySolver.cs" />
     <Compile Include="Filter\BlueCatValidationFilter.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -150,6 +169,18 @@
     <ProjectReference Include="..\BlueCat.Api.Common\BlueCat.Api.Common.csproj">
       <Project>{d27585e5-ed11-46ed-9770-d44819825056}</Project>
       <Name>BlueCat.Api.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueCat.Api.Repository.Impl\BlueCat.Api.Repository.Impl.csproj">
+      <Project>{f8008e1d-e865-4ac6-a661-2455473c3e7c}</Project>
+      <Name>BlueCat.Api.Repository.Impl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueCat.Api.Repository.Interface\BlueCat.Api.Repository.Interface.csproj">
+      <Project>{95b95a3b-e1c8-477b-bded-a1544f1badab}</Project>
+      <Name>BlueCat.Api.Repository.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueCat.Api.Service.Impl\BlueCat.Api.Service.Impl.csproj">
+      <Project>{fad29391-5a5e-4479-9ce2-77af1c66d68c}</Project>
+      <Name>BlueCat.Api.Service.Impl</Name>
     </ProjectReference>
     <ProjectReference Include="..\BlueCat.Api.Service.Interface\BlueCat.Api.Service.Interface.csproj">
       <Project>{7543fff2-4ff0-469e-a9fc-d434e63b95d9}</Project>

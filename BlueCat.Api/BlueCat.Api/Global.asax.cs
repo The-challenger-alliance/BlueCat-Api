@@ -1,5 +1,8 @@
-﻿using FluentValidation.Attributes;
+﻿using BlueCat.Api.App_Start;
+using BlueCat.Api.DI;
+using FluentValidation.Attributes;
 using FluentValidation.Mvc;
+using System.ComponentModel.Composition.Hosting;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -18,6 +21,8 @@ namespace BlueCat.Api
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             GlobalConfiguration.Configure(WebApiConfig.Register);
+
+            AutoFacConfig.Register();
         }
 
     }

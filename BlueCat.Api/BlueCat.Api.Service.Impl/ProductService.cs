@@ -1,23 +1,38 @@
-﻿using BlueCat.Api.Interface;
+﻿using BlueCat.Api.Repository.Interface;
 using BlueCat.Api.Service.Interface;
+using BlueCat.Api.UnitOfWork;
 using BlueCat.Contract;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BlueCat.Api.ServiceImpl
+namespace BlueCat.Api.Service.Impl
 {
-    [Export(typeof(IProductService))]
-    public abstract class ProductService : UnitOfWorkService,IProductService
+    //public class ProductService : UnitOfWorkService, IProductService
+    public class ProductService : IProductService
     {
-        [Import]
+
+        public ProductService(IProductRepository productRepository, IUnitOfWork unitOfWork)
+        {
+            this.ProductRepository = productRepository;
+            this.UnitOfWork = unitOfWork;
+        }
+
         protected IProductRepository ProductRepository { get; set; }
 
-        public virtual CreateProductResponse CreateProduct(CreateProductRequest request)
+        protected IUnitOfWork UnitOfWork { get; set; }
+
+        public  CreateProductResponse CreateProduct(CreateProductRequest request)
         {
+            Product product = ProductRepository.Entities.SingleOrDefault(x => x.Id == request.Id);
+
+             Product product1=new Product();
+            product1.Id=5;
+             product1.Name="111";
+             product1.Category="222";
+             product1.Id=5;
+
+             ProductRepository.Insert(product1);
+
             return new CreateProductResponse();
         }
 

@@ -1,31 +1,27 @@
-﻿using BlueCat.Contract;
-using System;
-using System.Collections.Generic;
+﻿using BlueCat.Api.Common;
+using BlueCat.Contract;
 using System.ComponentModel.Composition;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlueCat.Api.Repository.Impl.Context
 {
-    [Export(typeof(DbContext))]
+    //[Export(typeof(DbContext))]
     public class BlueCatDbContext : DbContext
     {
-          #region 构造函数
+        #region 构造函数
 
         /// <summary>
         ///     初始化一个 使用连接名称为“default”的数据访问上下文类 的新实例
         /// </summary>
         public BlueCatDbContext()
-            : base("default") { }
+            : base("BlueCatConnectionString") { }
 
         /// <summary>
         /// 初始化一个 使用指定数据连接名称或连接串 的数据访问上下文类 的新实例
         /// </summary>
         public BlueCatDbContext(string nameOrConnectionString)
-            : base(nameOrConnectionString) {  }
+            : base(nameOrConnectionString) { }
 
         #endregion
 

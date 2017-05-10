@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BlueCat.Contract
 {
-    [Validator(typeof(ProductValidator))]
+    //[Validator(typeof(ProductValidator))]
     public class Product:Entity
     {
         public int Id { get; set; }

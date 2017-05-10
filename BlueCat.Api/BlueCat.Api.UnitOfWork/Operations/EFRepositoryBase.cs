@@ -17,10 +17,10 @@ namespace BlueCat.Api.UnitOfWork
     {
         #region 属性
 
+
         /// <summary>
         ///     获取 仓储上下文的实例
         /// </summary>
-        [Import]
         public IUnitOfWork UnitOfWork { get; set; }
 
         /// <summary>

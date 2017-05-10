@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Serialization;
+﻿using BlueCat.Api.App_Start;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,12 @@ namespace BlueCat.Api
                 new QueryStringMapping("datatype", "xml", "application/xml"));
 
             config.Filters.Add(new BlueCatValidationFilter());
-            //http://www.cnblogs.com/shi-meng/p/4635571.html
+
+            //解决json时间格式带T的问题
+            //config.Formatters.JsonFormatter.SerializerSettings.Converters.Add(new IsoDateTimeConverter
+            //{
+            //    DateTimeFormat = "yyyy'-'MM'-'dd' 'HH':'mm':'ss"
+            //});
         }
     }
 }
