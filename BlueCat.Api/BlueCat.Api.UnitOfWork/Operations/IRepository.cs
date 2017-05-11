@@ -12,6 +12,7 @@ namespace BlueCat.Api.UnitOfWork
     /// <typeparam name="TEntity">动态实体类型</typeparam>
     public interface IRepository<TEntity> where TEntity : Entity
     {
+
         #region 属性
 
         /// <summary>

@@ -6,6 +6,6 @@ namespace BlueCat.Api.Service.Impl
    public class UnitOfWorkService
     {
         //[Import]
-        protected IUnitOfWork UnitOfWork { get; set; }
+        protected IUnitOfWork UnitOfWork{ get; set; }
     }
 }

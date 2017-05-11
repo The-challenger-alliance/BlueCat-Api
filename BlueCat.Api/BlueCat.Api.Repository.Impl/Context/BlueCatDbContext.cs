@@ -15,7 +15,7 @@ namespace BlueCat.Api.Repository.Impl.Context
         ///     初始化一个 使用连接名称为“default”的数据访问上下文类 的新实例
         /// </summary>
         public BlueCatDbContext()
-            : base("BlueCatConnectionString") { }
+            : base("name=BlueCatConnectionString") { }
 
         /// <summary>
         /// 初始化一个 使用指定数据连接名称或连接串 的数据访问上下文类 的新实例

@@ -20,7 +20,6 @@ namespace BlueCat.Api.Repository.Impl.Context
         ///     获取或设置 默认的Demo项目数据访问上下文对象
         /// </summary>
         //[Import(typeof(DbContext))]
-        public BlueCatDbContext BlueCatDbContext =new BlueCatDbContext(); 
-    //{ get; set; }
+        public BlueCatDbContext BlueCatDbContext{ get; set; }
     }
 }
