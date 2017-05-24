@@ -43,14 +43,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CreateProductRequest.cs" />
-    <Compile Include="Product.cs" />
+    <Compile Include="GetStudentsRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BlueCat.Api.Common\BlueCat.Api.Common.csproj">
       <Project>{d27585e5-ed11-46ed-9770-d44819825056}</Project>
       <Name>BlueCat.Api.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueCat.Api.Entity\BlueCat.Api.Entity.csproj">
+      <Project>{acab213d-1e16-4931-a79a-5ebadfdb3a3b}</Project>
+      <Name>BlueCat.Api.Entity</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

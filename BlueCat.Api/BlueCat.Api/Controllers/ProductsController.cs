@@ -1,15 +1,14 @@
 ﻿using BlueCat.Api.Common;
-using BlueCat.Api.Service.Impl;
 using BlueCat.Api.Service.Interface;
 using BlueCat.Contract;
 using BlueCat.Jwt;
 using BlueCat.Jwt.Algorithms;
 using BlueCat.Jwt.Serializers;
+using BlueCat.Validation;
 using FluentValidation.Results;
 using JWT;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
 using System.Net;
 using System.Web.Http;
@@ -18,34 +17,32 @@ namespace BlueCat.Api.Controllers
 {
     public class ProductsController : ApiController
     {
-        public IProductService ProductService { get; set; }
+        public IStudentService StudentService { get; set; }
 
-        public ProductsController(IProductService productService)
+        public ProductsController(IStudentService studentService)
         {
-            this.ProductService = productService;
-        }
-
-        Product[] products = new Product[] 
-        { 
-            new Product { Id = 1, Name = "Tomato Soup", Category = "Groceries", Price = 1 }, 
-            new Product { Id = 2, Name = "Yo-yo", Category = "Toys", Price = 3.75M }, 
-            new Product { Id = 3, Name = "Hammer", Category = "Hardware", Price = 16.99M } 
-        };
-
-        [Route("v1/products/get")]
-        [HttpGet]
-        public IEnumerable<Product> GetAllProducts()
-        {
-            return products;
+            this.StudentService = studentService;
         }
 
 
-        [Route("v1/products/get")]
+        //[Route("v1/products/get")]
+        //[HttpGet]
+        //public IEnumerable<Product> GetAllProducts()
+        //{
+        //    return products;
+        //}
+
+        /// <summary>
+        /// Test code
+        /// </summary>
+        /// <param name="request">Request params</param>
+        /// <returns></returns>
+        [Route("v1/products")]
         [HttpPost]
-        public IHttpActionResult GetAllProduct([FromBody] Product product)
+        public IHttpActionResult GetAllProduct([FromBody] GetStudentsRequest request)
         {
-            ProductValidator productValidator = new ProductValidator();
-            ValidationResult result = productValidator.Validate(product);
+            GetStudentsRequestValidator getStudentsRequestValidator = new GetStudentsRequestValidator();
+            ValidationResult result = getStudentsRequestValidator.Validate(request);
             if (!result.IsValid)
             {
                 result.Errors.ToList().ForEach(error =>
@@ -55,15 +52,9 @@ namespace BlueCat.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            CreateProductRequest request = new CreateProductRequest()
-            {
-                Id = product.Id,
-                Name = product.Name
-            };
+            GetStudentsResponse response = this.StudentService.GetStudents(request);
 
-            CreateProductResponse response = ProductService.CreateProduct(request);
-
-            return Ok(products);
+            return Ok(response);
         }
 
 
@@ -126,23 +117,23 @@ namespace BlueCat.Api.Controllers
 
 
 
-        [HttpGet]
-        [ActionName("Thumbnail")]
-        public Product GetProductById(int id)
-        {
-            var product = products.FirstOrDefault((p) => p.Id == id);
-            if (product == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
-            return product;
-        }
+        //[HttpGet]
+        //[ActionName("Thumbnail")]
+        //public Product GetProductById(int id)
+        //{
+        //    var product = products.FirstOrDefault((p) => p.Id == id);
+        //    if (product == null)
+        //    {
+        //        throw new HttpResponseException(HttpStatusCode.NotFound);
+        //    }
+        //    return product;
+        //}
 
-        public IEnumerable<Product> GetProductsByCategory(string category)
-        {
-            return products.Where(
-                (p) => string.Equals(p.Category, category,
-                    StringComparison.OrdinalIgnoreCase));
-        }
+        //public IEnumerable<Product> GetProductsByCategory(string category)
+        //{
+        //    return products.Where(
+        //        (p) => string.Equals(p.Category, category,
+        //            StringComparison.OrdinalIgnoreCase));
+        //}
     }
 }

@@ -1,5 +1,4 @@
 ﻿using BlueCat.Api.App_Start;
-using BlueCat.Api.DI;
 using FluentValidation.Attributes;
 using FluentValidation.Mvc;
 using System.ComponentModel.Composition.Hosting;

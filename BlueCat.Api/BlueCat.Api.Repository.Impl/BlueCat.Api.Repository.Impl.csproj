@@ -47,9 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Context\BlueCatDbContext.cs" />
-    <Compile Include="Context\BlueCatUnitOfWorkContext.cs" />
-    <Compile Include="ProductRepository.cs" />
+    <Compile Include="StudentRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -57,13 +55,13 @@
       <Project>{d27585e5-ed11-46ed-9770-d44819825056}</Project>
       <Name>BlueCat.Api.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BlueCat.Api.Entity\BlueCat.Api.Entity.csproj">
+      <Project>{acab213d-1e16-4931-a79a-5ebadfdb3a3b}</Project>
+      <Name>BlueCat.Api.Entity</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BlueCat.Api.Repository.Interface\BlueCat.Api.Repository.Interface.csproj">
       <Project>{95b95a3b-e1c8-477b-bded-a1544f1badab}</Project>
       <Name>BlueCat.Api.Repository.Interface</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BlueCat.Api.UnitOfWork\BlueCat.Api.UnitOfWork.csproj">
-      <Project>{7a6124dc-8812-464a-989c-a0da9c8ba587}</Project>
-      <Name>BlueCat.Api.UnitOfWork</Name>
     </ProjectReference>
     <ProjectReference Include="..\BlueCat.Contract\BlueCat.Contract.csproj">
       <Project>{4e692765-6ca0-42aa-92da-7757f4fd185e}</Project>

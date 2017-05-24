@@ -1,16 +1,17 @@
-﻿
+﻿using BlueCat.Api.Entity.Entity;
+using System.Collections.Generic;
+
 namespace BlueCat.Contract
 {
-    public class CreateProductRequest
+    public class GetStudentsRequest
     {
-        public int Id { get; set; }
 
         public string Name { get; set; }
     }
 
-
-    public class CreateProductResponse : BaseInternalResponseDto
+    public class GetStudentsResponse : BaseInternalResponseDto
     {
+        public List<Student> Students { get; set; }
         public bool ResponseResult { get; set; }
     }
 
@@ -26,18 +27,18 @@ namespace BlueCat.Contract
 
     public class ResponseStatus
     {
-        public ResponseStatus(){}
-        public ResponseStatus(string errorCode)
+        public ResponseStatus() { }
+        public ResponseStatus(string responseCode)
         {
-            this.ErrorCode = errorCode;
+            this.ResponseCode = responseCode;
         }
-        public ResponseStatus(string errorCode, string message)
+        public ResponseStatus(string responseCode, string message)
         {
-            this.ErrorCode = errorCode;
+            this.ResponseCode = responseCode;
             this.Message = message;
         }
 
-        public string ErrorCode { get; set; }
+        public string ResponseCode { get; set; }
         public string Message { get; set; }
     }
 }

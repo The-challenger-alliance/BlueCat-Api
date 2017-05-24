@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace BlueCat.Api.Controllers
@@ -19,7 +15,6 @@ namespace BlueCat.Api.Controllers
 
         public HttpResponseMessage Get()
         {
-            //return new TextResult("hello", Request);
             HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, "value");
             response.Content = new StringContent("hello", Encoding.Unicode);
             response.Headers.CacheControl = new CacheControlHeaderValue()
@@ -27,7 +22,7 @@ namespace BlueCat.Api.Controllers
                 MaxAge = TimeSpan.FromMinutes(20)
             };
             return response;
-        } 
+        }
     }
 
     //public interface IHttpActionResult

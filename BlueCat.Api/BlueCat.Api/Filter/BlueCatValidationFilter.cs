@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Http.Controllers;
+﻿using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 
 namespace BlueCat.Api
@@ -11,6 +7,7 @@ namespace BlueCat.Api
     {
         public override void OnActionExecuting(HttpActionContext filterContext)
         {
+            //to do -- check token 
             base.OnActionExecuting(filterContext);
           
         } 

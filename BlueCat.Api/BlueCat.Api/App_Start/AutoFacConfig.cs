@@ -1,8 +1,6 @@
 ﻿using Autofac;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
-using BlueCat.Api.Repository.Impl.Context;
-using BlueCat.Api.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -28,12 +26,6 @@ namespace BlueCat.Api.App_Start
 
             AutoFacConfig.SetUpResolveRules(builder);
 
-
-            builder.RegisterType<BlueCatDbContext>().As<DbContext>().InstancePerLifetimeScope();
-
-            builder.RegisterType<BlueCatUnitOfWorkContext>().As<IUnitOfWork>().InstancePerLifetimeScope();
-
-
             var container = builder.Build();
             //注册api容器需要使用HttpConfiguration对象
             httpConfiguration.DependencyResolver = new AutofacWebApiDependencyResolver(container);
@@ -52,12 +44,6 @@ namespace BlueCat.Api.App_Start
             var iRepository = Assembly.Load("BlueCat.Api.Repository.Interface");
             var repository = Assembly.Load("BlueCat.Api.Repository.Impl");
 
-            var unitOfWork = Assembly.Load("BlueCat.Api.UnitOfWork");
-
-            containerBuilder.RegisterAssemblyTypes(unitOfWork, repository)
-.Where(t => t.Name.Contains("UnitOfWork"))
-.AsImplementedInterfaces();
-
             //根据名称约定（服务层的接口和实现均以Service结尾），实现服务接口和服务实现的依赖
             containerBuilder.RegisterAssemblyTypes(iService, service)
               .Where(t => t.Name.EndsWith("Service"))
@@ -67,15 +53,6 @@ namespace BlueCat.Api.App_Start
             containerBuilder.RegisterAssemblyTypes(iRepository, repository)
               .Where(t => t.Name.EndsWith("Repository"))
               .AsImplementedInterfaces();
-
-
-
-
-
-           // containerBuilder.RegisterAssemblyTypes(iRepository, repository)
-           //.Where(t => t.Name.EndsWith("Repository"))
-           //.AsImplementedInterfaces();
-
         }
     }
 }
