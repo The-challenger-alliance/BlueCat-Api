@@ -23,6 +23,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueCat.Validation", "BlueC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueCat.Api.Entity", "BlueCat.Api.Entity\BlueCat.Api.Entity.csproj", "{ACAB213D-1E16-4931-A79A-5EBADFDB3A3B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueCat.DataBase", "BlueCat.DataBase\BlueCat.DataBase.csproj", "{8571CB77-7704-4CAD-972C-702C5C6C97AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueCat.Service.Test", "BlueCat.Service.Test\BlueCat.Service.Test.csproj", "{939CAD27-D093-4776-91D1-5C812378C8EA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +73,14 @@ Global
 		{ACAB213D-1E16-4931-A79A-5EBADFDB3A3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACAB213D-1E16-4931-A79A-5EBADFDB3A3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ACAB213D-1E16-4931-A79A-5EBADFDB3A3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8571CB77-7704-4CAD-972C-702C5C6C97AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8571CB77-7704-4CAD-972C-702C5C6C97AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8571CB77-7704-4CAD-972C-702C5C6C97AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8571CB77-7704-4CAD-972C-702C5C6C97AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{939CAD27-D093-4776-91D1-5C812378C8EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{939CAD27-D093-4776-91D1-5C812378C8EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{939CAD27-D093-4776-91D1-5C812378C8EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{939CAD27-D093-4776-91D1-5C812378C8EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
