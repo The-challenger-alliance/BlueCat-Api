@@ -1,4 +1,6 @@
 ﻿using BlueCat.Api.App_Start;
+using BlueCat.Api.Common;
+using BlueCat.Api.Filter;
 using FluentValidation.Attributes;
 using FluentValidation.Mvc;
 using System.ComponentModel.Composition.Hosting;
@@ -20,6 +22,14 @@ namespace BlueCat.Api
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             GlobalConfiguration.Configure(WebApiConfig.Register);
+            //鉴权应该是在gateway去做
+            //GlobalConfiguration.Configuration.MessageHandlers.Add(new BearerHandler());
+            GlobalConfiguration.Configuration.Filters.Add(new ApiExceptionFilterAttribute());
+            //全局日志
+            GlobalConfiguration.Configuration.MessageHandlers.Add(new ApiLogHandler());
+
+            //添加到全局配置
+         
 
             AutoFacConfig.Register();
         }

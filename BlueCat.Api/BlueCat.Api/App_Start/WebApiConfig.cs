@@ -1,4 +1,5 @@
 ﻿using BlueCat.Api.App_Start;
+using BlueCat.Api.Filter;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using System;
@@ -36,6 +37,10 @@ namespace BlueCat.Api
             {
                 DateTimeFormat = "yyyy'-'MM'-'dd' 'HH':'mm':'ss'.'ffff"
             });
+
+            //注册
+            config.Filters.Add(new ApiExceptionFilterAttribute());
+
         }
     }
 }

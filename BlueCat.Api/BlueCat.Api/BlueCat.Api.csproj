@@ -136,6 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\AutoFacConfig.cs" />
+    <Compile Include="Filter\ApiExceptionFilterAttribute.cs" />
     <Compile Include="Filter\BlueCatValidationFilter.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />

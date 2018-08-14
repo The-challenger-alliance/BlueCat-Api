@@ -6,12 +6,6 @@ using System.Threading.Tasks;
 
 namespace BlueCat.Api.Common
 {
-
-    //public interface ApiResultData
-    //{
-
-    //}
-
     public interface IApiResult
     {
         /// <summary>
