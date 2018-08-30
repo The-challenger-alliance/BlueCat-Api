@@ -124,9 +124,9 @@ namespace BlueCat.Api.Controllers
 
             result.resultData = "1111";
 
-            //return Request.ToResponse(result);
+            return Request.ToResponse(result);
  
-            throw new Exception() {    };
+            //throw new Exception() {    };
         }
     }
 }
