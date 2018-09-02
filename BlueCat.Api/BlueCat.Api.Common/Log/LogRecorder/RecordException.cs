@@ -12,7 +12,7 @@ namespace BlueCat.Api.Common.Log
     /// <summary>
     /// 日志异常
     /// </summary>
-    public static class RecordException
+    public static partial class LogRecorder
     {
         /// <summary>
         ///   记录异常的外部信息

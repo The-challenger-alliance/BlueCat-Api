@@ -70,7 +70,6 @@
     <Compile Include="Log\LogRecorder.cs" />
     <Compile Include="Log\LogRecorder\RecorderSupport.cs" />
     <Compile Include="Log\LogRecorder\LogType.cs" />
-    <Compile Include="Log\LogRecorder\RecorderObject.cs" />
     <Compile Include="Log\LogRecorder\RecordException.cs" />
     <Compile Include="Log\RecordInfo.cs" />
     <Compile Include="Log\TxtRecorder.cs" />

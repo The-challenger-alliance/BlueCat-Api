@@ -5,7 +5,7 @@ namespace BlueCat.Api.Common.Log
     /// <summary>
     /// 日志支持
     /// </summary>
-    public class RecorderSupport 
+    public static partial class LogRecorder 
     {
         /// <summary>
         ///   日志类型到文本

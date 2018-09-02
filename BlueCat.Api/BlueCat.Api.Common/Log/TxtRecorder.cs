@@ -146,7 +146,46 @@ User:{1}
         /// <param name="message"> </param>
         public void WriteLine(string message)
         {
-            this.RecordLog(Guid.NewGuid(), message, RecorderSupport.TypeToString(LogType.Trace));
+            this.RecordLog(Guid.NewGuid(), message, TypeToString(LogType.Trace));
+        }
+
+        /// <summary>
+        ///   日志类型到文本
+        /// </summary>
+        /// <param name="type"> </param>
+        /// <param name="def"> </param>
+        /// <returns> </returns>
+        public string TypeToString(LogType type, string def = null)
+        {
+            switch (type)
+            {
+                default:
+                    return def ?? "None";
+                case LogType.Plan:
+                    return "Plan";
+                case LogType.Trace:
+                    return "Debug";
+                case LogType.Message:
+                    return "Message";
+                case LogType.Warning:
+                    return "Warning";
+                case LogType.Error:
+                    return "Error";
+                case LogType.Exception:
+                    return "Exception";
+                case LogType.System:
+                    return "System";
+                case LogType.Login:
+                    return "Login";
+                case LogType.Request:
+                    return "Request";
+                case LogType.DataBase:
+                    return "DataBase";
+                case LogType.WcfMessage:
+                    return "WcfMessage";
+                case LogType.Monitor:
+                    return "Monitor";
+            }
         }
     }
 }
