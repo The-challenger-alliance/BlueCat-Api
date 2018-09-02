@@ -60,18 +60,21 @@
     <Compile Include="Exception\ExceptionInfo.cs" />
     <Compile Include="Exception\SystemErrorType.cs" />
     <Compile Include="Extend\EnumerableHelper.cs" />
+    <Compile Include="Extend\FixStack.cs" />
     <Compile Include="Extend\ScopeBase\ScopeBase.cs" />
     <Compile Include="Extend\ScopeBase\ThreadLockScope.cs" />
     <Compile Include="GlobalVariable.cs" />
     <Compile Include="ApiLogHandler.cs" />
     <Compile Include="IO\IOHelper.cs" />
-    <Compile Include="Log\ILogListener.cs" />
-    <Compile Include="Log\ILogRecorder.cs" />
-    <Compile Include="Log\LogRecorder.cs" />
+    <Compile Include="Log\interface\ILogListener.cs" />
+    <Compile Include="Log\interface\ILogRecorder.cs" />
+    <Compile Include="Log\LogRecorder\LogRecorder.cs" />
     <Compile Include="Log\LogRecorder\RecorderSupport.cs" />
-    <Compile Include="Log\LogRecorder\LogType.cs" />
+    <Compile Include="Log\Object\LogType.cs" />
     <Compile Include="Log\LogRecorder\RecordException.cs" />
-    <Compile Include="Log\RecordInfo.cs" />
+    <Compile Include="Log\Object\MonitorData.cs" />
+    <Compile Include="Log\LogRecorder\MonitorLog.cs" />
+    <Compile Include="Log\Object\RecordInfo.cs" />
     <Compile Include="Log\TxtRecorder.cs" />
     <Compile Include="Reflection\EnumExtend.cs" />
     <Compile Include="Reflection\EnumHelper.cs" />
@@ -84,6 +87,8 @@
     <Compile Include="ResponseDataMeta\HttpResponseMessageExtend.cs" />
     <Compile Include="ResponseDataMeta\IApiResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Text\StringHelper.cs" />
+    <Compile Include="Text\ValueToStringHelper.cs" />
     <Compile Include="TimeConvert.cs" />
   </ItemGroup>
   <ItemGroup />

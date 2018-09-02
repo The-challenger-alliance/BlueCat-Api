@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlueCat.Api.Common.Log;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,7 @@ namespace BlueCat.Api.Common.Extend.ScopeBase
         /// </summary>
         protected void RecordFailedStack()
         {
-            //LogRecorder.RecordStackTrace(string.Format("在范围对象{0}的析构时,确认范围对象结论为失败,调用堆栈如下:", this.GetType()));
+            LogRecorder.RecordStackTrace(string.Format("在范围对象{0}的析构时,确认范围对象结论为失败,调用堆栈如下:", this.GetType()));
         }
 
         /// <summary>
