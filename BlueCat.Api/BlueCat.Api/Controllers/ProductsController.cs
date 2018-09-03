@@ -118,7 +118,7 @@ namespace BlueCat.Api.Controllers
 
         [Route("v1/Thumbnail")]
         [HttpGet]        
-        public ApiResponseMessage<ApiResult<string>> GetProductById()
+        public ApiResponseMessage<ApiResult<string>> GetProductById([FromUri] string name)
         {
             ApiResult<string> result = new ApiResult<string>();
 

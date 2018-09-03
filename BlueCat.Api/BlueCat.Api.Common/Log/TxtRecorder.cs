@@ -1,5 +1,7 @@
 ﻿using BlueCat.Api.Common.Extend.ScopeBase;
+using NLog.Internal;
 using System;
+using System.Globalization;
 using System.IO;
 using System.Text;
 
@@ -16,8 +18,31 @@ namespace BlueCat.Api.Common.Log
         ///   初始化
         /// </summary>
         public void Initialize()
-        { 
-            
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(LogPath))
+                {
+                    var cfgpath = System.Configuration.ConfigurationManager.AppSettings["LogPath"];
+                    if (string.IsNullOrWhiteSpace(cfgpath))
+                    {
+                        string exeth = Path.GetDirectoryName(GetType().Assembly.Location);
+                        if (exeth != null)
+                        {
+                            cfgpath = Path.Combine(exeth, "log");
+                        }
+                    }
+                    LogPath = cfgpath;
+                }
+                if (LogPath != null && !Directory.Exists(LogPath))
+                {
+                    Directory.CreateDirectory(LogPath);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogRecorder.SystemTrace("日志记录:TextRecorder.Initialize", ex);
+            }
         }
 
         /// <summary>
@@ -41,11 +66,12 @@ namespace BlueCat.Api.Common.Log
         /// <param name="user"> 当前操作者 </param>
         /// <param name="name"> 标识的文件后缀(如.error,则文件名可能为 20160602.error.log) </param>
         private void RecordLog(Guid id, string msg, string type, string user = null, string name = null)
-        { 
-            string xml = type== "DataBase" ? string.Format("{0}\r\n",msg):string.Format(@"Date:{DateTime.Now.ToString(CultureInfo.InvariantCulture)}
-Type:{0}
-User:{1}
-{2}",type,user,msg);;
+        {
+            string xml = type == "DataBase" ? string.Format("{0}\r\n", msg) : string.Format(@"Date:{0}
+Type:{1}
+User:{2}
+{3}", DateTime.Now.ToString(CultureInfo.InvariantCulture), type, user, msg) + "\r\n"; 
+      
             try
             {
                 if (!Directory.Exists(LogPath))
@@ -61,7 +87,7 @@ User:{1}
             }
             catch (Exception ex)
             {
-               // LogRecorder.SystemTrace("日志记录:TextRecorder.RecordLog4", ex);
+               LogRecorder.SystemTrace("日志记录:TextRecorder.RecordLog4", ex);
             }
         }
 
@@ -96,7 +122,7 @@ User:{1}
             }
             catch (Exception ex)
             {
-                //LogRecorder.SystemTrace("日志记录:TextRecorder.RecordLog1", ex);
+                LogRecorder.SystemTrace("日志记录:TextRecorder.RecordLog1", ex);
             }
         }
 

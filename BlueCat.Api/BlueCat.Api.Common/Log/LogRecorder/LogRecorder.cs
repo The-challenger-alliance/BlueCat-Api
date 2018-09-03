@@ -450,15 +450,8 @@ namespace BlueCat.Api.Common.Log
                     TxtRecorder.RecordTrace(info.Message, ".monitor");
                     return;
                 }
-#if SERVICE
-                if ((info.Type == LogType.Error || info.Type == LogType.Exception) && !IsTextRecorder)
-                {
-                    TxtRecorder.Recorder.RecordLog(info);
-                }
-                Recorder?.RecordLog(info);
-#else
+
                 Recorder.RecordLog(info);
-#endif
             }
             catch (Exception ex)
             {

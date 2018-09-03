@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlueCat.Api.Common.Log;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -82,10 +83,8 @@ namespace BlueCat.Api.Common
         /// <param name="cancellationToken"></param>
         private void RecordRequestInfo(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-
-            //your logs
-
-            //            var args = new StringBuilder();
+            #region .net core
+            //             var args = new StringBuilder();
             //            args.Append("Headers：");
             //            foreach (var head in request.Headers)
             //            {
@@ -128,6 +127,57 @@ namespace BlueCat.Api.Common
             //                }}");
             //            }
             //            LogRecorder.Record(code.ToString(), LogType.Message);
+
+            #endregion
+
+            var args = new StringBuilder();
+            args.Append("Headers：");
+            foreach (var head in request.Headers)
+            {
+                args.Append(string.Format("【{0}】{1}",head.Key,head.Value.LinkToString('|')));
+            }
+            LogRecorder.MonitorTrace(args.ToString());
+            
+            LogRecorder.MonitorTrace(String.Format("Method：{0}",request.Method));
+
+            LogRecorder.MonitorTrace(string.Format("QueryString：{0}",request.RequestUri.Query));
+
+            StringBuilder code = new StringBuilder();
+
+            if (request.Method == HttpMethod.Get)
+            {
+                code.Append(string.Format(@"{{
+    Api.Bear = ""{0}"";
+    Api Method = Get/*<>*/(""{1}"");
+}}", ExtractToken(request), request.RequestUri));
+            }
+            else
+            {
+                var task = request.Content.ReadAsStringAsync();
+                task.Wait(cancellationToken);
+                //string.Format("Content：{0}",task.Result);
+                LogRecorder.MonitorTrace(string.Format("Content：{0}",task.Result));
+                
+                code.Append(string.Format(@"
+                {{
+                    caller.Bear = ""{0}"";
+                    var result = caller.Post/*<>*/(""{1}"", new Dictionary<string, string>
+                    {{",ExtractToken(request),request.RequestUri));
+               
+                var di = FormatParams(task.Result);
+                foreach (var item in di)
+                {
+                    
+                    code.Append(string.Format(@" 
+                                            {{""{0}"",""{1}""}},",item.Key,item.Value));
+                }
+                code.Append(string.Format(@"
+                    }});
+                    Console.WriteLine(JsonConvert.SerializeObject(result));
+                }}"));
+            }
+
+            LogRecorder.Record(code.ToString(), LogType.Message);
         }
 
         /// <summary>
@@ -140,13 +190,65 @@ namespace BlueCat.Api.Common
             {
                 var task = response.Content.ReadAsStringAsync();
                 task.Wait();
-                //LogRecorder.MonitorTrace($"Result：{task.Result}");
+                LogRecorder.MonitorTrace(string.Format("Result：{0}",task.Result));
             }
             catch (Exception e)
             {
-                //LogRecorder.MonitorTrace($"Result：{e.Message}");
+                LogRecorder.MonitorTrace(string.Format("Result：{0}", e.Message));
             }
-            //LogRecorder.EndMonitor();
+            LogRecorder.EndMonitor();
+        }
+
+            /// <summary>
+        /// 取请求头的身份验证令牌
+        /// </summary>
+        /// <returns></returns>
+        private string ExtractToken(HttpRequestMessage request)
+        {
+            const string bearer = "Bearer";
+            var authz = request.Headers.Authorization;
+            if (authz != null)
+                return string.Equals(authz.Scheme, bearer, StringComparison.OrdinalIgnoreCase) ? authz.Parameter : null;
+            if (!request.Headers.Contains("Authorization"))
+                return null;
+            string au = request.Headers.GetValues("Authorization").FirstOrDefault();
+            if (au == null)
+                return null;
+            var aus = au.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            if (aus.Length < 2 || aus[0] != bearer)
+                return null;
+            return aus[1];
+        }
+
+         /// <summary>
+        /// 参数格式化
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        private Dictionary<string, string> FormatParams(string args)
+        {
+            if (string.IsNullOrWhiteSpace(args))
+                return new Dictionary<string, string>();
+            var result = new Dictionary<string, string>();
+            var kw = args.Split(new char[] { '&' }, StringSplitOptions.RemoveEmptyEntries);
+            if (kw.Length == 0)
+                return result;
+            foreach (var item in kw)
+            {
+                var words = item.Split(new char[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
+                switch (words.Length)
+                {
+                    case 0:
+                        continue;
+                    case 1:
+                        result.Add(words[0], null);
+                        continue;
+                    default:
+                        result.Add(words[0], words[1]);
+                        continue;
+                }
+            }
+            return result;
         }
 
         /// <summary>
