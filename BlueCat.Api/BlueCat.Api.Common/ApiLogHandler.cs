@@ -1,8 +1,10 @@
-﻿using BlueCat.Api.Common.Log;
+﻿using BlueCat.Api.Common.Context;
+using BlueCat.Api.Common.Log;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,16 +17,47 @@ namespace BlueCat.Api.Common
     /// </summary>
     public sealed class ApiLogHandler : DelegatingHandler
     {
+
+        public ApiLogHandler()
+        {
+            LogRecorder.GetRequestIdFunc = () =>
+            {
+
+                if (ApiContext.RequestContext == null || ApiContext.RequestContext.RequestId == null)
+                {
+                    return Guid.NewGuid();
+                }
+
+                return ApiContext.RequestContext.RequestId;
+
+                //return Guid.NewGuid();
+            };
+        }
+
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             try
             {
-               // LogRecorder.BeginMonitor(request.RequestUri.ToString());
+                UserProfile userProfile = new UserProfile();
+
+                this.CreateApiContext(userProfile);
+
+                //设置全局变量
+                ApiContext.SetRequestContext(new InternalCallContext
+                {
+                    RequestId = Guid.NewGuid(),
+                    UserId = -2
+                });
+
+                // LogRecorder.BeginMonitor(request.RequestUri.ToString());
                 RecordRequestInfo(request, cancellationToken);
                 var result = base.SendAsync(request, cancellationToken);
                 result.ContinueWith((task, state) => RecordResponseInfo(task.Result), null,
-                    TaskContinuationOptions.AttachedToParent | TaskContinuationOptions.ExecuteSynchronously);
+                    TaskContinuationOptions.AttachedToParent | TaskContinuationOptions.ExecuteSynchronously).ContinueWith((task, state) =>
+                    {
+                        CallContext.LogicalSetData("ApiContext", null);
 
+                    }, null, cancellationToken); ;
                 //bool hasErrorCode = false;
 
                 //string errorMessage = string.Empty;
@@ -53,7 +86,7 @@ namespace BlueCat.Api.Common
                 //        //    ReasonPhrase = "Exception"
                 //        //});
 
-                        
+
                 //        var tsc = new TaskCompletionSource<HttpResponseMessage>();
                 //        tsc.SetResult(response);
 
@@ -65,12 +98,16 @@ namespace BlueCat.Api.Common
 
                 //});
 
+                LogRecorder.Record("", LogType.Message,true);
+
                 return result;
             }
             catch (Exception)
             {
                 return Task<HttpResponseMessage>.Factory.StartNew(() =>
                 {
+                    CallContext.LogicalSetData("ApiContext", null);
+                    LogRecorder.Record("", LogType.Message, true);
                     return request.ToResponse(ApiResult<string>.ErrorResult(ErrorCode.NetworkError, "网络异常"));
                 });
             }
@@ -134,13 +171,13 @@ namespace BlueCat.Api.Common
             args.Append("Headers：");
             foreach (var head in request.Headers)
             {
-                args.Append(string.Format("【{0}】{1}",head.Key,head.Value.LinkToString('|')));
+                args.Append(string.Format("【{0}】{1}", head.Key, head.Value.LinkToString('|')));
             }
             LogRecorder.MonitorTrace(args.ToString());
-            
-            LogRecorder.MonitorTrace(String.Format("Method：{0}",request.Method));
 
-            LogRecorder.MonitorTrace(string.Format("QueryString：{0}",request.RequestUri.Query));
+            LogRecorder.MonitorTrace(String.Format("Method：{0}", request.Method));
+
+            LogRecorder.MonitorTrace(string.Format("QueryString：{0}", request.RequestUri.Query));
 
             StringBuilder code = new StringBuilder();
 
@@ -156,20 +193,22 @@ namespace BlueCat.Api.Common
                 var task = request.Content.ReadAsStringAsync();
                 task.Wait(cancellationToken);
                 //string.Format("Content：{0}",task.Result);
-                LogRecorder.MonitorTrace(string.Format("Content：{0}",task.Result));
-                
+                LogRecorder.MonitorTrace(string.Format("Content：{0}", task.Result));
+
                 code.Append(string.Format(@"
                 {{
                     caller.Bear = ""{0}"";
                     var result = caller.Post/*<>*/(""{1}"", new Dictionary<string, string>
-                    {{",ExtractToken(request),request.RequestUri));
-               
+                    {{", ExtractToken(request), request.RequestUri));
+
                 var di = FormatParams(task.Result);
+
+
                 foreach (var item in di)
                 {
-                    
+
                     code.Append(string.Format(@" 
-                                            {{""{0}"",""{1}""}},",item.Key,item.Value));
+                                            {{""{0}"",""{1}""}},", item.Key, item.Value));
                 }
                 code.Append(string.Format(@"
                     }});
@@ -190,7 +229,7 @@ namespace BlueCat.Api.Common
             {
                 var task = response.Content.ReadAsStringAsync();
                 task.Wait();
-                LogRecorder.MonitorTrace(string.Format("Result：{0}",task.Result));
+                LogRecorder.Record(string.Format("Result：{0}", task.Result));
             }
             catch (Exception e)
             {
@@ -199,7 +238,7 @@ namespace BlueCat.Api.Common
             LogRecorder.EndMonitor();
         }
 
-            /// <summary>
+        /// <summary>
         /// 取请求头的身份验证令牌
         /// </summary>
         /// <returns></returns>
@@ -220,7 +259,7 @@ namespace BlueCat.Api.Common
             return aus[1];
         }
 
-         /// <summary>
+        /// <summary>
         /// 参数格式化
         /// </summary>
         /// <param name="args"></param>
@@ -256,6 +295,18 @@ namespace BlueCat.Api.Common
         /// </summary>
         public class ExceptionResponse
         {
+        }
+
+        private void CreateApiContext(UserProfile customer)
+        {
+            ApiContext.SetCustomer(customer);
+            ApiContext.SetRequestContext(new InternalCallContext
+            {
+                RequestId = Guid.NewGuid(),
+                //ServiceKey = GlobalVariable.ServiceKey,
+                UserId = customer.UserId,
+                ThreadId = Thread.CurrentThread.ManagedThreadId
+            });
         }
     }
 }

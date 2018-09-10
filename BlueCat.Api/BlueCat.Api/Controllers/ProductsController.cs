@@ -122,7 +122,7 @@ namespace BlueCat.Api.Controllers
         {
             ApiResult<string> result = new ApiResult<string>();
 
-            result.resultData = "1111";
+            result.resultData = name;
 
             return Request.ToResponse(result);
  

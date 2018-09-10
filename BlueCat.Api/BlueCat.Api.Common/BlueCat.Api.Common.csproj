@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Context\ApiContext.cs" />
     <Compile Include="ErrorCode.cs" />
     <Compile Include="Exception\AccountException.cs" />
     <Compile Include="Exception\BlueCatBusinessException.cs" />

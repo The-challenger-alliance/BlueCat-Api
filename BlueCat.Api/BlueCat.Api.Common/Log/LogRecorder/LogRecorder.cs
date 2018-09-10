@@ -76,8 +76,8 @@ namespace BlueCat.Api.Common.Log
         /// </summary>
         static Guid GetRequestId()
         {
-            //return GetRequestIdFunc?.Invoke() ?? Guid.NewGuid();
-            return Guid.NewGuid();
+            return GetRequestIdFunc.Invoke() == null ? Guid.NewGuid() : GetRequestIdFunc.Invoke();
+            //return Guid.NewGuid();
         }
         #endregion
 
@@ -111,9 +111,9 @@ namespace BlueCat.Api.Common.Log
         /// </summary>
         /// <param name="msg"> 消息 </param>
         /// <param name="type"> 日志类型(SG) </param>
-        public static void Record(string msg, LogType type = LogType.Message)
+        public static void Record(string msg, LogType type = LogType.Message, bool isCompleted = false)
         {
-            Record(GetRequestId(), type.ToString(), msg, type);
+            RecordLogs(GetRequestId(), type.ToString(), msg, type, isCompleted);
         }
 
         ///<summary>
@@ -374,6 +374,41 @@ namespace BlueCat.Api.Common.Log
                 TypeName = typeName ?? TypeToString(type)
             });
         }
+
+
+        /// <summary>
+        ///   记录日志
+        /// </summary>
+        /// <param name="id"> 标识 </param>
+        /// <param name="name"> 原始的消息 </param>
+        /// <param name="msg"> 处理后的消息 </param>
+        /// <param name="type"> 日志类型 </param>
+        /// <param name="typeName"> 类型名称 </param>
+        private static void RecordLogs(Guid id, string name, string msg, LogType type, bool isCompleted, string typeName = null)
+        {
+            if (type == LogType.None)
+            {
+                type = LogType.Message;
+            }
+            int idx;
+            using (ThreadLockScope.Scope(lockTooken))
+            {
+                idx = _id++;
+            }
+            Push(new RecordInfo
+            {
+                LogId = id,
+                Index = idx,
+                Name = name,
+                Type = type,
+                Message = msg,
+                IsCompleted = isCompleted,
+                ThreadID = Thread.CurrentThread.ManagedThreadId,
+                TypeName = typeName ?? TypeToString(type)
+            });
+        }
+
+
         /// <summary>
         /// 待写入的日志信息集合
         /// </summary>
@@ -404,21 +439,48 @@ namespace BlueCat.Api.Common.Log
             while (true)
             {
                 Thread.Sleep(3);
-                RecordInfo[] infos;
+                List<RecordInfo> infos;
+                List<Guid> distinctLogIds;
+                int distinctLogIdsCount = 0;
                 using (ThreadLockScope.Scope(recordInfos))
                 {
-                    infos = recordInfos.ToArray();
-                    recordInfos.Clear();
+                    //infos = recordInfos.ToArray();
+                    //recordInfos.Clear();
+                    var logIds = recordInfos.Where(x => x.IsCompleted).Select(x => x.LogId).ToList();
+                    distinctLogIdsCount = logIds.Distinct().ToList().Count;
+                    distinctLogIds = logIds.Distinct().ToList();
+                    infos = recordInfos.Where(x => logIds.Contains(x.LogId)).ToList();
+                    recordInfos.RemoveAll(x => logIds.Contains(x.LogId));
                 }
-                foreach (var info in infos)
+                //foreach (var info in infos)
+                //{
+                //    Thread.Sleep(3);//释放一次时间片,以保证主要线程的流畅性
+                //    WriteToLog(info);
+                //}
+                foreach (var logId in distinctLogIds)
                 {
                     Thread.Sleep(3);//释放一次时间片,以保证主要线程的流畅性
-                    WriteToLog(info);
+
+                    WriteLogsToLog(infos.Where(x => x.LogId == logId).ToList());
                 }
             }
-            // ReSharper disable FunctionNeverReturns
         }
-        // ReSharper restore FunctionNeverReturns
+
+        private static void WriteLogsToLog(List<RecordInfo> infos)
+        {
+            try
+            {
+                foreach (var info in infos)
+                {
+                    Recorder.RecordLog(info);
+                }
+            }
+            catch (Exception ex)
+            {
+                SystemTrace("日志写入发生错误", ex);
+            }
+        }
+
 
         private static void WriteToLog(RecordInfo info)
         {
